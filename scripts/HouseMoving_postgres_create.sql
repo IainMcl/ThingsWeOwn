@@ -1,21 +1,11 @@
 CREATE TABLE-- IF NOT EXISTS
 "House" (
-	"House_pk" SERIAL,
+	"House_pk" VARCHAR(255) UNIQUE NOT NULL,
 	"HouseName" VARCHAR(255) NOT NULL,
-	"Room" VARCHAR(255) NOT NULL--,
-	--CONSTRAINT "House_pk" PRIMARY KEY ("HouseName", "Room")
-) WITH (
-  OIDS=FALSE
-);
-
-
-
-CREATE TABLE-- IF NOT EXISTS
-"Contents" (
-	"House_pk" VARCHAR(255) NOT NULL,
-	"ItemName" VARCHAR(255) NOT NULL
-) WITH (
-  OIDS=FALSE
+	"Room" VARCHAR(255) NOT NULL,
+	CONSTRAINT "House_pk" PRIMARY KEY ("HouseName", "Room")
+	) WITH (
+	OIDS=FALSE
 );
 
 
@@ -33,6 +23,7 @@ CREATE TABLE-- IF NOT EXISTS
 	"Value" integer NOT NULL,
 	"Owner" VARCHAR(255) NOT NULL,
 	"Notes" VARCHAR(255),
+	"Room" VARCHAR(255) NOT NULL,
 	CONSTRAINT "Item_pk" PRIMARY KEY ("ItemName")
 ) WITH (
   OIDS=FALSE
@@ -50,12 +41,9 @@ CREATE TABLE-- IF NOT EXISTS
 );
 
 
-ALTER TABLE "Contents" DROP CONSTRAINT IF EXISTS "Contents_fk0";
-ALTER TABLE "Contents" ADD CONSTRAINT "Contents_fk0" FOREIGN KEY ("House_pk") REFERENCES "House"("Room");
-ALTER TABLE "Contents" DROP CONSTRAINT IF EXISTS "Contents_fk1";
-ALTER TABLE "Contents" ADD CONSTRAINT "Contents_fk1" FOREIGN KEY ("ItemName") REFERENCES "Item"("ItemName");
-
 ALTER TABLE "Item" DROP CONSTRAINT IF EXISTS "Item_fk0";
-ALTER TABLE "Item" ADD CONSTRAINT "Item_fk0" FOREIGN KEY ("Owner") REFERENCES "Person"("Name");
+ALTER TABLE "Item" ADD CONSTRAINT "Item_fk0" FOREIGN KEY ("Room") REFERENCES "House"("House_pk");
+ALTER TABLE "Item" DROP CONSTRAINT IF EXISTS "Item_fk1";
+ALTER TABLE "Item" ADD CONSTRAINT "Item_fk1" FOREIGN KEY ("Owner") REFERENCES "Person"("Name");
 
 
