@@ -2,7 +2,7 @@
 # Postgress database to keep inventory of all of the things that we own in preparation for moving.
 #
 # Schema design saved on [DBDesigner](https://app.dbdesigner.net/designer/schema/401855).
-# TODO: Make select statements json.
+# TODO: Update, generic moved and more complex full.
 
 # imports
 import psycopg2
