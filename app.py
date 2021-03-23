@@ -3,18 +3,25 @@ from flask_assistant import Assistant, tell, ask
 import database as db
 import json
 import os
+from dotenv import load_dotenv
+
+from pathlib import Path
+
+env_path = Path(".") / ".env"
+load_dotenv(dotenv_path=env_path)
 
 DEBUG = True
 
 app = Flask(__name__)
-assist = Assistant(app, project_id=os.environ.get("THINGSWEOWN_PROJECT_ID"))
+assist = Assistant(app, project_id=os.getenv("THINGSWEOWN_PROJECT_ID"))
 
-json_content = {'content-type': 'text/json'}
+json_content = {'content-type': 'text/json',
+                'Access-Control-Allow-Origin': "*"}  # change to svelte port
 
 
 @app.route('/all', methods=['GET'])
 def select_all():
-    return json.dumps(db.select_all()), 200
+    return json.dumps(db.select_all()), 200, json_content
 
 
 @app.route('/create-new', methods=['POST'])
