@@ -10,17 +10,23 @@ from psycopg2.extras import RealDictCursor
 import pandas as pd
 from contextlib import contextmanager
 from typing import Dict
+from dotenv import load_dotenv
+from pathlib import Path
+import os
+
+env_path = Path(".") / ".env"
+load_dotenv(dotenv_path=env_path)
 
 # **Variables**
 #
 # Declaring databse variables to allow for connection.
 
 # Variables
-database = "House"
-user = "iainmcl"
-password = "empire"
-host = "127.0.0.1"
-port = "5433"
+database = os.getenv("DATABASE")
+user = os.getenv("USER")
+password = os.getenv("PASSWORD")
+host = os.getenv("DB_HOST")
+port = os.getenv("DB_PORT")
 
 # ## Context manager
 #

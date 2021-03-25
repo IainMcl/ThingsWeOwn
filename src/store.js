@@ -3,5 +3,15 @@ import { writable } from 'svelte/store';
 export const item = writable({
   ItemName: "",
   House: "",
-  Room: ""
+  Room: "",
+  Owner: "",
+  Value: 0,
+  Quantity: 1,
+  Size: "small",
+  Priority: 1,
+  Fragile: false,
+  Owned: true,
+  Moved: false,
+  Keeping: true,
+  Notes: ""
 })

@@ -1,29 +1,30 @@
 <script lang="ts">
   import ItemForm from "./ItemForm.svelte";
-  //const dotenv = require("dotenv");
-  let logo = "static/images/logo.png";
-  const server = appenv.env.NGROK;
-  const fetchAll = async () => {
-    const response = await fetch(server + "/person");
-    return await response.json();
-  };
+  // let logo = "static/images/logo.png";
+  let logo = "favicon.png";
+  // const server = appenv.env.NGROK;
+  // const fetchAll = async () => {
+  // const response = await fetch(server + "/person");
+  // return await response.json();
+  // };
 
-  console.log(fetchAll());
+  // console.log(fetchAll());
 </script>
 
 <main>
   <div class="header">
     <img src={logo} alt="Things we own logo" />
   </div>
+  <hr />
   <ItemForm />
 </main>
 
 <style lang="scss">
-  @media screen and (max-width: 640px) {
-    main {
-      img {
-        width: 10rem;
-      }
+  .header {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 10rem;
     }
   }
 </style>

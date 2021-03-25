@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_assistant import Assistant, tell, ask
 import database as db
 import json
@@ -17,6 +17,18 @@ assist = Assistant(app, project_id=os.getenv("THINGSWEOWN_PROJECT_ID"))
 
 json_content = {'content-type': 'text/json',
                 'Access-Control-Allow-Origin': "*"}  # change to svelte port
+
+
+@app.route("/")
+def base():
+    return send_from_directory('public', 'index.html')
+
+# Path for all the static files (compiled JS/CSS, etc.)
+
+
+@app.route("/<path:path>")
+def home(path):
+    return send_from_directory('public', path)
 
 
 @app.route('/all', methods=['GET'])
