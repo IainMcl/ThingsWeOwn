@@ -12,7 +12,7 @@ load_dotenv(dotenv_path=env_path)
 
 DEBUG = True
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="/static")
 assist = Assistant(app, project_id=os.getenv("THINGSWEOWN_PROJECT_ID"))
 
 json_content = {'content-type': 'text/json',
