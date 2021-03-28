@@ -19,7 +19,7 @@
   }
 </script>
 
-<form>
+<form on:submit|preventDefault>
   <Content>Add a new person</Content>
   <div class="item">
     <Textfield

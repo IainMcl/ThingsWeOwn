@@ -10,7 +10,7 @@ from pathlib import Path
 env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
 
-DEBUG = True
+DEBUG = False
 
 app = Flask(__name__, static_url_path="/static")
 assist = Assistant(app, project_id=os.getenv("THINGSWEOWN_PROJECT_ID"))

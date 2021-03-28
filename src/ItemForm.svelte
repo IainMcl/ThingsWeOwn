@@ -108,7 +108,7 @@
 <div class="card-container">
   <Card style="width: {width}%;">
     <Content>
-      <form>
+      <form on:submit|preventDefault>
         <Content>Add a new item</Content>
         <div class="item">
           <Textfield
