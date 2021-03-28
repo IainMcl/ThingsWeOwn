@@ -91,7 +91,10 @@ def add_room(house: str, room: str) -> Dict[str, str]:
     return data
 
 
-def add_item(name: str, room: str, owner: str, value=0, quant: int = 1, size: str = 'medium', priority: int = 0, fragile: bool = False, owned: bool = True, moved: bool = False, keeping: bool = True, notes: str = ""):
+def add_item(name: str, room: str, owner: str, value=0, quant: int = 1,
+             size: str = 'medium', priority: int = 0, fragile: bool = False,
+             owned: bool = True, moved: bool = False, keeping: bool = True,
+             notes: str = ""):
     with connect() as conn:
         cur = conn.cursor(cursor_factory=RealDictCursor)
         cur.execute(f"""
@@ -121,7 +124,7 @@ def add_item(name: str, room: str, owner: str, value=0, quant: int = 1, size: st
 #
 
 
-def select_all(table_name="Items", outfile=False):
+def select_all(table_name="Items"):
     with connect() as conn:
         cur = conn.cursor(cursor_factory=RealDictCursor)
         execute_script(cur, "./scripts/select_all.sql")
@@ -129,18 +132,26 @@ def select_all(table_name="Items", outfile=False):
     return data
 
 
-def get_room_options(outfile=False):
+def get_room_options():
     with connect() as conn:
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute("SELECT \"HouseName\", \"Room\" FROM \"House\";")
+        cur.execute("SELECT DISTINCT \"Room\" FROM \"House\";")
         data = cur.fetchall()
     return data
 
 
-def get_person_options(outfile=False):
+def get_house_options():
     with connect() as conn:
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute("SELECT \"Name\" FROM PERSON;")
+        cur.execute("SELECT DISTINCT \"HouseName\" FROM \"House\";")
+        data = cur.fetchall()
+    return data
+
+
+def get_person_options():
+    with connect() as conn:
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("SELECT DISTINCT \"Name\" FROM \"Person\";")
         data = cur.fetchall()
     return data
 

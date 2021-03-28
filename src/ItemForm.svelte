@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { item } from "./store.js";
+  import { item, house_room, person } from "./store.js";
   import Card, { Content, Actions } from "@smui/card";
   import Button, { Label } from "@smui/button";
   import Textfield, { Input, Textarea } from "@smui/textfield";
@@ -31,13 +31,29 @@
 
   let width = 95;
 
-  const rooms = [{ HouseName: "", Room: "" }];
-  // console.log(rooms);
-  // fetch("./room", { method: "GET" }).then((response) => {
-  //   console.log(response.json);
-  //   rooms = response.json;
-  // });
-  const people = [{ Name: "Iain", Priority: 5 }];
+  let roomsPromise = getRooms();
+  let housePromise = getHouses();
+  let peoplePromise = getPeople();
+
+  function getRooms() {
+    return fetch("/available-rooms", { method: "GET" }).then((response) => {
+      return response.json();
+    });
+  }
+
+  function getHouses() {
+    return fetch("/available-houses", { method: "GET" }).then((response) => {
+      return response.json();
+    });
+  }
+
+  function getPeople() {
+    return fetch("/available-people", { method: "Get" }).then((response) => {
+      return response.json();
+    });
+  }
+
+  // const people = [{ Name: "Iain", Priority: 5 }];
   const sizes = ["Small", "Medium", "Large"];
   let options = [
     {
@@ -62,10 +78,30 @@
     },
   ];
 
-  //console.log(rooms);
-  function submit(): boolean {
-    // Add a new item to the database.
-    return true;
+  async function submit() {
+    console.log("Submit");
+    $item.Room = $item.House + " " + $item.Room;
+    // $item.Owner = $person.name;
+    const res = await fetch("/item", {
+      method: "POST",
+      body: JSON.stringify({
+        ItemName: $item.ItemName,
+        Room: $item.Room,
+        Owner: $item.Owner,
+        Value: $item.Value,
+        Quantity: $item.Quantity,
+        Size: $item.Size,
+        Priority: $item.Priority,
+        Fragile: $item.Fragile,
+        Owned: $item.Owned,
+        Moved: $item.Moved,
+        Keeping: $item.Keeping,
+        Notes: $item.Notes,
+      }),
+    });
+    console.log(res.status);
+    // const json = await res.json();
+    // result = JSON.stringify(json);
   }
 </script>
 
@@ -97,10 +133,18 @@
             >
               <Option value="" />
               <!-- <Option>..loading..</Option> -->
-
-              {#each rooms as room}
-                <Option value={room.HouseName}>{room.HouseName}</Option>
-              {/each}
+              {#await housePromise}
+                <Content>...loading...</Content>
+              {:then houses}
+                {#each houses as house}
+                  <Option
+                    style="text-transform: capitalize;"
+                    value={house.HouseName}>{house.HouseName}</Option
+                  >
+                {/each}
+              {:catch err}
+                <code>{err.message}</code>
+              {/await}
               <Option
                 on:click={() => {
                   showHouseRoomPopup("House", $item.Room);
@@ -119,9 +163,20 @@
               menu$class="demo-select-width"
             >
               <Option value="" />
-              {#each rooms as room}
+              {#await roomsPromise}
+                <Content>...loading...</Content>
+              {:then rooms}
+                {#each rooms as room}
+                  <Option style="text-transform: capitalize;" value={room.Room}
+                    >{room.Room}</Option
+                  >
+                {/each}
+              {:catch err}
+                <code>{err.message}</code>
+              {/await}
+              <!-- {#each rooms as room}
                 <Option value={room.Room}>{room.Room}</Option>
-              {/each}
+              {/each} -->
               <Option
                 on:click={() => {
                   showHouseRoomPopup("Room", $item.House);
@@ -142,9 +197,15 @@
             menu$class="demo-select-width"
           >
             <Option value="" />
-            {#each people as person}
-              <Option value={person.Name}>{person.Name}</Option>
-            {/each}
+            {#await peoplePromise}
+              <Content>...loading...</Content>
+            {:then people}
+              {#each people as person}
+                <Option style="text-transform: capitalize;" value={person.Name}
+                  >{person.Name}</Option
+                >
+              {/each}
+            {/await}
             <Option
               on:click={() => {
                 showPersonPopup();
@@ -261,6 +322,7 @@
     flex-wrap: wrap;
     justify-content: space-around;
   }
+
   // Fix text alignment within input fields to be centered.
   * :global(input) {
     margin: 0;

@@ -5,9 +5,18 @@
 
   import { person } from "./store.js";
 
-  const submit = () => {
-    console.log("submit");
-  };
+  async function addPerson() {
+    const res = await fetch("/person", {
+      method: "POST",
+      body: JSON.stringify({
+        Name: $person.name,
+        Priority: $person.priority,
+      }),
+    });
+    console.log(res.status);
+    // const json = await res.json();
+    // result = JSON.stringify(json);
+  }
 </script>
 
 <form>
@@ -35,7 +44,7 @@
   </div>
 
   <Actions fullBleed>
-    <Button on:click={submit}>
+    <Button on:click={addPerson}>
       <Label>Add item</Label>
       <i class="material-icons" aria-hidden="true">arrow_forward</i>
     </Button>
@@ -51,8 +60,8 @@
     margin: 0.5rem;
   }
 
-  h2 {
+  /* h2 {
     font-size: 2rem;
     text-align: center;
-  }
+  } */
 </style>

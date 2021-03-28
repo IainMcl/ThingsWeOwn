@@ -7,6 +7,9 @@
   export let house_or_room: string;
   export let other: string;
 
+  // let value;
+  // let other_value;
+
   let value = house_or_room === "House" ? $house_room.house : $house_room.room;
   let other_value =
     house_or_room === "House" ? $house_room.room : $house_room.house;
@@ -16,10 +19,36 @@
     other_item = house_or_room === "House" ? "Room" : "House";
   }
 
-  const submit = () => {
-    // Send new house room to the database.
-    console.log("submit");
-  };
+  async function addHouseRoom() {
+    if (other === "undefuned" || other === "") {
+      if (house_or_room === "House") {
+        $house_room.house = value;
+        $house_room.room = other_value;
+      } else {
+        $house_room.room = value;
+        $house_room.house = other_value;
+      }
+    } else {
+      if (house_or_room === "Room") {
+        $house_room.house = other;
+        $house_room.room = value;
+      } else if (house_or_room === "House") {
+        $house_room.room = other;
+        $house_room.house = value;
+      }
+    }
+    console.log($house_room);
+    const res = await fetch("/room", {
+      method: "POST",
+      body: JSON.stringify({
+        House: $house_room.house,
+        Room: $house_room.room,
+      }),
+    });
+    console.log(res.status);
+    // const json = await res.json();
+    // result = JSON.stringify(json);
+  }
 </script>
 
 <form>
@@ -56,7 +85,7 @@
     </div>
   {/if}
   <Actions fullBleed>
-    <Button on:click={submit}>
+    <Button on:click={addHouseRoom}>
       <Label>Add item</Label>
       <i class="material-icons" aria-hidden="true">arrow_forward</i>
     </Button>
@@ -72,8 +101,8 @@
     margin: 0.5rem;
   }
 
-  h2 {
+  /* h2 {
     font-size: 2rem;
     text-align: center;
-  }
+  } */
 </style>

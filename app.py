@@ -108,10 +108,15 @@ def item():
 
 @app.route("/available-rooms", methods=["GET"])
 def get_availabe_rooms():
-    return json.dumps(db.get_person_options()), 200, json_content
+    return json.dumps(db.get_room_options()), 200, json_content
 
 
-@app.route("/availabe-people", methods=["GET"])
+@app.route("/available-houses", methods=["GET"])
+def get_available_houses():
+    return json.dumps(db.get_house_options()), 200, json_content
+
+
+@app.route("/available-people", methods=["GET"])
 def get_available_people():
     return json.dumps(db.get_person_options()), 200, json_content
 
