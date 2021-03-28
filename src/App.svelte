@@ -1,6 +1,8 @@
 <script lang="ts">
   import ItemForm from "./ItemForm.svelte";
   import Modal from "./Modal.svelte";
+  import Toasts from "./Toast.svelte";
+  import { addToast } from "./toast_store";
   let logo = "build/static/logo.png";
 </script>
 

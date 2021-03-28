@@ -9,8 +9,10 @@
   import FormField from "@smui/form-field";
   import Checkbox from "@smui/checkbox";
 
+  import Toasts from "./Toast.svelte";
+  import { addToast } from "./toast_store.js";
+
   import { getContext } from "svelte";
-  // import { fly } from "svelte/transition";
 
   import HouseRoomPopup from "./HouseRoomPopup.svelte";
   import PersonPopup from "./PersonPopup.svelte";
@@ -82,7 +84,7 @@
     console.log("Submit");
     $item.Room = $item.House + " " + $item.Room;
     // $item.Owner = $person.name;
-    const res = await fetch("/item", {
+    const response = await fetch("/item", {
       method: "POST",
       body: JSON.stringify({
         ItemName: $item.ItemName,
@@ -98,13 +100,33 @@
         Keeping: $item.Keeping,
         Notes: $item.Notes,
       }),
+    }).then((response) => {
+      let message: string;
+      let type: string;
+      let dismissible: boolean = true;
+      let timeout: number = 3000;
+      // console.log(response.status);
+      if (response.status === 201) {
+        message = `Added ${response.json().ItemName}.`;
+        type = "success";
+      } else if (response.status == 500) {
+        message = "Incomplete fields";
+        type = "error";
+      }
+      addToast({ message, type, dismissible, timeout });
+      // const json = await res.json();
+      // result = JSON.stringify(json);
     });
-    console.log(res.status);
-    // const json = await res.json();
-    // result = JSON.stringify(json);
   }
+
+  let message = "Hello, World!";
+  let types = ["success", "error", "info"];
+  let type = "success";
+  let dismissible = true;
+  let timeout = 0;
 </script>
 
+<Toasts />
 <div class="card-container">
   <Card style="width: {width}%;">
     <Content>
@@ -272,7 +294,9 @@
     </Content>
 
     <Actions fullBleed>
-      <Button on:click={submit}>
+      <Button
+        on:click={() => addToast({ message, type, dismissible, timeout })}
+      >
         <Label>Add item</Label>
         <i class="material-icons" aria-hidden="true">arrow_forward</i>
       </Button>
