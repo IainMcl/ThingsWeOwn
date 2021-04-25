@@ -1,3 +1,4 @@
+#!/var/www/ThingsWeOwn/ThingsWeOwn/venv/bin/ python3
 from flask import Flask
 from flask_assistant import Assistant, ask
 import json

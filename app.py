@@ -1,5 +1,6 @@
+#!/var/www/ThingsWeOwn/ThingsWeOwn/venv/bin/ python3
 from flask import Flask, request, send_from_directory
-from flask_assistant import Assistant, tell, ask
+# from flask_assistant import Assistant, tell, ask
 import database as db
 import json
 import os
@@ -13,7 +14,7 @@ load_dotenv(dotenv_path=env_path)
 DEBUG = False
 
 app = Flask(__name__, static_url_path="/static")
-assist = Assistant(app, project_id=os.getenv("THINGSWEOWN_PROJECT_ID"))
+# assist = Assistant(app, project_id=os.getenv("THINGSWEOWN_PROJECT_ID"))
 
 json_content = {'content-type': 'text/json',
                 'Access-Control-Allow-Origin': "*"}  # change to svelte port
@@ -121,22 +122,21 @@ def get_available_people():
     return json.dumps(db.get_person_options()), 200, json_content
 
 
-@assist.action('greeting')
-def greet_and_start():
-    speech = "Hey are you male of female?"
-    return ask(speech), 200, {'Google-Assistant-API-Version', 'v2'}
-
-
-@assist.action("give-gender")
-def ask_for_color(gender):
-    if gender == 'male':
-        gender_msg = 'Sup bro!'
-    else:
-        gender_msg = 'Haay gurl!'
-
-    speech = gender_msg + ' What is your favorite color?'
-    return ask(speech)
-
+# @assist.action('greeting')
+# def greet_and_start():
+#     speech = "Hey are you male of female?"
+#     return ask(speech), 200, {'Google-Assistant-API-Version', 'v2'}
+# 
+# 
+# @assist.action("give-gender")
+# def ask_for_color(gender):
+#     if gender == 'male':
+#         gender_msg = 'Sup bro!'
+#     else:
+#         gender_msg = 'Haay gurl!'
+# 
+#     speech = gender_msg + ' What is your favorite color?'
+#     return ask(speech)
 
 def main():
     app.run(debug=DEBUG)

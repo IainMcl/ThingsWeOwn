@@ -1,3 +1,4 @@
+#!/var/www/ThingsWeOwn/ThingsWeOwn/venv/bin/ python3
 # # Things we own database
 # Postgress database to keep inventory of all of the things that we own in preparation for moving.
 #
@@ -14,6 +15,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
+
 env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
 
@@ -26,6 +28,7 @@ database = os.getenv("DATABASE")
 user = os.getenv("USER")
 password = os.getenv("PASSWORD")
 host = os.getenv("DB_HOST")
+host = "localhost"
 port = os.getenv("DB_PORT")
 
 # ## Context manager
