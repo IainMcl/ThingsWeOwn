@@ -24,12 +24,20 @@ load_dotenv(dotenv_path=env_path)
 # Declaring databse variables to allow for connection.
 
 # Variables
-database = os.getenv("DATABASE")
-user = os.getenv("USER")
-password = os.getenv("PASSWORD")
-host = os.getenv("DB_HOST")
+# print(os.environ)
+# database = os.environ.get("DATABASE")
+# user = os.environ.get("USER")
+# password = os.environ.get("PASSWORD")
+# host = os.environ.get("DB_HOST")
+# host = "localhost"
+# port = os.environ.get("DB_PORT")
+# print(f"HERE:database:{database}, user:{user}, password:{password}, host:{host}, port:{port}")
+database = "House"
+user = "pi"
+password = "empire"
 host = "localhost"
-port = os.getenv("DB_PORT")
+port = "5432"
+
 
 # ## Context manager
 #

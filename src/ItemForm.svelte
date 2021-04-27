@@ -1,5 +1,6 @@
 <script lang="ts">
   import { item, house_room, person } from "./store.js";
+  import { writable } from 'svelte/store';
   import Card, { Content, Actions } from "@smui/card";
   import Button, { Label } from "@smui/button";
   import Textfield, { Input, Textarea } from "@smui/textfield";
@@ -100,8 +101,25 @@
       }),
     });
     console.log(res.status);
+    resetItem();
     // const json = await res.json();
     // result = JSON.stringify(json);
+  }
+
+  function resetItem(){
+    $item.ItemName= "",
+    $item.House= "",
+    $item.Room= "",
+    $item.Owner= "",
+    $item.Value= 0,
+    $item.Quantity= 1,
+    $item.Size= "small",
+    $item.Priority= 1,
+    $item.Fragile= false,
+    $item.Owned= true,
+    $item.Moved= false,
+    $item.Keeping= true,
+    $item.Notes= "" 
   }
 </script>
 
